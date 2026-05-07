@@ -4,13 +4,13 @@ Run an OpenVPN server with just one Docker command. No need to set up certs, CA 
 
 OpenVPN and the clients are pre-configured with a secure set of parameters that will work for most of the cases where no advanced settings are needed.
 
-https://hub.docker.com/r/julman99/openvpn-supereasy
+https://hub.docker.com/r/tsdacompany/openvpn-supereasy
 
 # Docker Compose file
 
 ```yaml
 openvpn-supereasy:
-  image: julman99/openvpn-supereasy
+  image: tsdacompany/openvpn-supereasy
   container_name: openvpn-supereasy
   cap_add:
     - NET_ADMIN
