@@ -254,7 +254,8 @@ function run_openvpn {
         --push "rcvbuf 524288" \
         --tun-mtu "$OPENVPN_TUN_MTU" \
         --client-to-client \
-        --push "route 172.19.0.0 255.255.255.0"
+        "${OPENVPN_ROUTE_UDP_ARGS[@]}" \
+        "${OPENVPN_ROUTE_TCP_ARGS[@]}" \
         "${OPENVPN_MSSFIX_ARGS[@]}" \
         "${OPENVPN_FASTIO_ARGS[@]}"
 }
@@ -315,6 +316,18 @@ OPENVPN_MSSFIX_ARGS=()
 if [ -n "$OPENVPN_MSSFIX" ]; then
     assert_number "OPENVPN_MSSFIX"
     OPENVPN_MSSFIX_ARGS=(--mssfix "$OPENVPN_MSSFIX")
+fi
+
+# NOTE: we only support one mask format: /24
+OPENVPN_ROUTE_UDP_ARGS=()
+if [ -n "$OPENVPN_NETWORK_UDP" ]; then
+    OPENVPN_ROUTE_UDP_ARGS=(--push "route $OPENVPN_NETWORK_UDP 255.255.255.0")
+fi
+
+# NOTE: we only support one mask format: /24
+OPENVPN_ROUTE_TCP_ARGS=()
+if [ -n "$OPENVPN_NETWORK_TCP" ]; then
+    OPENVPN_ROUTE_TCP_ARGS=(--push "route $OPENVPN_NETWORK_TCP 255.255.255.0")
 fi
 
 # Check if the CIDR has a mask, add /24 if not, and validate enabled protocols
