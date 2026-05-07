@@ -318,18 +318,6 @@ if [ -n "$OPENVPN_MSSFIX" ]; then
     OPENVPN_MSSFIX_ARGS=(--mssfix "$OPENVPN_MSSFIX")
 fi
 
-# NOTE: we only support one mask format: /24
-OPENVPN_ROUTE_UDP_ARGS=()
-if [ -n "$OPENVPN_NETWORK_UDP" ]; then
-    OPENVPN_ROUTE_UDP_ARGS=(--push "route $OPENVPN_NETWORK_UDP 255.255.255.0")
-fi
-
-# NOTE: we only support one mask format: /24
-OPENVPN_ROUTE_TCP_ARGS=()
-if [ -n "$OPENVPN_NETWORK_TCP" ]; then
-    OPENVPN_ROUTE_TCP_ARGS=(--push "route $OPENVPN_NETWORK_TCP 255.255.255.0")
-fi
-
 # Check if the CIDR has a mask, add /24 if not, and validate enabled protocols
 if [ -n "$OPENVPN_PORT_UDP" ]; then
     if [[ ! "$OPENVPN_NETWORK_UDP" =~ / ]]; then
@@ -342,6 +330,18 @@ if [ -n "$OPENVPN_PORT_TCP" ]; then
         OPENVPN_NETWORK_TCP="$OPENVPN_NETWORK_TCP/24"
     fi
     assert_cidr "$OPENVPN_NETWORK_TCP"
+fi
+
+# NOTE: we only support one mask format: /24
+OPENVPN_ROUTE_UDP_ARGS=()
+if [ -n "$OPENVPN_NETWORK_UDP" ]; then
+    OPENVPN_ROUTE_UDP_ARGS=(--push "route ${OPENVPN_NETWORK_UDP%/*} 255.255.255.0")
+fi
+
+# NOTE: we only support one mask format: /24
+OPENVPN_ROUTE_TCP_ARGS=()
+if [ -n "$OPENVPN_NETWORK_TCP" ]; then
+    OPENVPN_ROUTE_TCP_ARGS=(--push "route ${OPENVPN_NETWORK_TCP%/*} 255.255.255.0")
 fi
 
 assert_variable "OPENVPN_EXTERNAL_HOSTNAME"
