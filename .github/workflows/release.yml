@@ -56,8 +56,8 @@ jobs:
           platforms: linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/386
           push: true
           tags: |
-            julman99/openvpn-supereasy:${{ steps.versions.outputs.image_version }}
-            julman99/openvpn-supereasy:latest
+            tsdacompany/openvpn-supereasy:${{ steps.versions.outputs.image_version }}
+            tsdacompany/openvpn-supereasy:latest
 
       - name: Create and push git tag
         if: steps.tag_check.outputs.exists == 'false'
