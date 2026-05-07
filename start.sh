@@ -254,6 +254,7 @@ function run_openvpn {
         --push "rcvbuf 524288" \
         --tun-mtu "$OPENVPN_TUN_MTU" \
         --client-to-client \
+        --push "route 172.19.0.0 255.255.255.0"
         "${OPENVPN_MSSFIX_ARGS[@]}" \
         "${OPENVPN_FASTIO_ARGS[@]}"
 }
