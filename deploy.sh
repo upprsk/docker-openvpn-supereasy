@@ -40,6 +40,6 @@ if [ -n "$PUSH" ]; then
 fi
 
 docker buildx build --platform=linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/386 . \
-    -t "julman99/openvpn-supereasy:$VERSION" \
-    -t julman99/openvpn-supereasy:latest \
+    -t "tsdacompany/openvpn-supereasy:$VERSION" \
+    -t tsdacompany/openvpn-supereasy:latest \
     $PUSH
